@@ -20,7 +20,7 @@ const int COLS = 3;
 // readingRace() reads data from a file to a set, std::list, and vector and outputs how long it took to read data to each.
 // arguments: an empty set of type string, an empty std::list of type string, an empty vector of type string
 // returns: nothing
-void readingRace(set<string> &, list<string> &, vector<string> &, long [ROWS][COLS]);
+void readingRace(set<string> &, list<string> &, vector<string> &, long long [COLS]);
 
 // sortingRace() sorts data in a std::list and vector and outputs how long it took to perform the sort. Because sets are
 //      already sorted, -1 is output as the duration value for sorting the set.
@@ -54,7 +54,7 @@ int main() {
 	// rows: types of races
 	// columns: types of data structures
 	// depth: each iteration of the test being conducted
-	long resultsArray[DEPTH][ROWS][COLS];
+	long long resultsArray[DEPTH][ROWS][COLS];
 
 	// Add placeholder values to array
 	for (int i = 0; i < DEPTH; i++) {
@@ -65,8 +65,23 @@ int main() {
 		}
 	}
 
+	for (int i = 0; i < DEPTH; i++) {
+		cout << "ROUND " << i << endl;
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				cout << resultsArray[i][row][col] << '\t';
+			}
+			cout << endl;
+		}
+	}
+
+	for (int i = 0; i < DEPTH; i++) {
+		// 0 is the index for the reading race row
+		readingRace(set, list, vector, resultsArray[i][0]);
+	}
+
 	// RACE 1: READING
-	readingRace(set, list, vector);
+
 
 	// RACE 2: SORTING
 	sortingRace(list, vector);
@@ -85,7 +100,7 @@ int main() {
 	return 0;
 }
 
-void readingRace(set<string> &set, list<string> &list, vector<string> &vector, long round[ROWS][COLS]) {
+void readingRace(set<string> &set, list<string> &list, vector<string> &vector, long long results[COLS]) {
 	ifstream infile("codes.txt");
 	string temp;
 
@@ -122,6 +137,11 @@ void readingRace(set<string> &set, list<string> &list, vector<string> &vector, l
 	auto vectorDuration = duration_cast<microseconds>(end - start);
 
 	infile.close();
+
+	// VECTOR / LIST / SET are the columns
+	results[0] = vectorDuration.count();
+	results[1] = listDuration.count();
+	results[2] = setDuration.count();
 
 	// Outputting results
 	cout << setw(WIDTH) << "Read \t" << vectorDuration.count() << '\t' << listDuration.count() << '\t' << setDuration.

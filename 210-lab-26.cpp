@@ -13,6 +13,7 @@ using namespace std;
 using namespace std::chrono;
 
 const int WIDTH = 10;
+// These three constants are used for the 3D results array
 const int DEPTH = 15;
 const int ROWS = 4;
 const int COLS = 3;
@@ -52,9 +53,9 @@ int main() {
 	vector<string> vector;
 
 	// 3D array: depth, rows, columns
-	// rows: types of races
-	// columns: types of data structures
 	// depth: each iteration of the test being conducted
+	// rows: each of the races (reading, sorting, etc.)
+	// columns: each of data structures (set, etc.)
 	long long resultsArray[DEPTH][ROWS][COLS] {};
 
 	for (int i = 0; i < DEPTH; i++) {
@@ -74,7 +75,8 @@ int main() {
 		resetRacers(set, list, vector);
 	}
 
-	// Getting the sums for each type of race and data structure
+	// Initializing variables for holding the sums for each type of race and data structure.
+	// The 1st letter refers to the type of race (e.g. R for reading) & the 2nd the data structure (V for vector)
 	long long sumRV = 0;
 	long long sumRL = 0;
 	long long sumRS = 0;
@@ -87,6 +89,11 @@ int main() {
 	long long sumDV = 0;
 	long long sumDL = 0;
 	long long sumDS = 0;
+
+	// The for loop is going through each "slice" of the 3D array, i.e. each of the 15 rounds of tests, and adding the
+	// relevant data to the sum variables.
+	// i is the current round, the indexes 0-3 in the next bracket represent the types of races, and the indexes 0-2 in
+	// the last bracket represent the data structures
 	for (int i = 0; i < DEPTH; i++) {
 		sumRV += resultsArray[i][0][0];
 		sumRL += resultsArray[i][0][1];

@@ -17,28 +17,29 @@ const int DEPTH = 15;
 const int ROWS = 4;
 const int COLS = 3;
 
-// readingRace() reads data from a file to a set, std::list, and vector and outputs how long it took to read data to each.
-// arguments: an empty set of type string, an empty std::list of type string, an empty vector of type string
+// readingRace() reads data from a file to a set, std::list, and vector and saves the results to an array
+// arguments: an empty set of type string, an empty std::list of type string, an empty vector of type string, an array
+//		of size COLS and type long long
 // returns: nothing
 void readingRace(set<string> &, list<string> &, vector<string> &, long long [COLS]);
 
 // sortingRace() sorts data in a std::list and vector and outputs how long it took to perform the sort. Because sets are
 //      already sorted, -1 is output as the duration value for sorting the set.
-// arguments: a std::list of strings and a vector of strings
+// arguments: a std::list of strings and a vector of strings, an array of size COLS and type long long
 // returns: nothing
-void sortingRace(list<string> &, vector<string> &);
+void sortingRace(list<string> &, vector<string> &, long long [COLS]);
 
 // insertingRace() inserts the value "TESTCODE" into the middle of a std::list and vector and into a set, and outputs
 //      how long it took to perform the operations.
-// arguments: a set of strings, a std::list of strings, a vector of strings
+// arguments: a set of strings, a std::list of strings, a vector of strings, an array of size COLS and type long long
 // returns: nothing
-void insertingRace(set<string> &, list<string> &, vector<string> &);
+void insertingRace(set<string> &, list<string> &, vector<string> &, long long [COLS]);
 
 // deletingRace() deletes the value in the middle of a set, std::list, and vector and outputs how long it took to
 //      perform the operations.
-// arguments: a set of strings, a std::list of strings, a vector of strings
+// arguments: a set of strings, a std::list of strings, a vector of strings, an array of size COLS and type long long
 // returns: nothing
-void deletingRace(set<string> &, list<string> &, vector<string> &);
+void deletingRace(set<string> &, list<string> &, vector<string> &, long long [COLS]);
 
 // resetRacers() empties the data structures to prepare them for the next iteration of races
 // arguments: a set of strings, a std::list of strings, a vector of strings
@@ -65,8 +66,28 @@ int main() {
 		}
 	}
 
+
+
 	for (int i = 0; i < DEPTH; i++) {
-		cout << "ROUND " << i << endl;
+		// RACE 1: READING
+		readingRace(set, list, vector, resultsArray[i][0]); // 0 is the index for the reading race row
+
+		// RACE 2: SORTING
+		sortingRace(list, vector, resultsArray[i][1]); // 1 is the index for the sorting race row
+
+		// RACE 3: INSERTING
+		insertingRace(set, list, vector, resultsArray[i][2]); // 2 is the index for the inserting race row
+
+		// RACE 4: DELETING
+		deletingRace(set, list, vector, resultsArray[i][3]); // 3 is the index for the deleting race row
+	}
+
+	// RESETTING FOR NEXT SET OF RACES
+	resetRacers(set, list, vector);
+
+	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
+	for (int i = 0; i < DEPTH; i++) {
+		cout << "ROUND " << i + 1 << endl;
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				cout << resultsArray[i][row][col] << '\t';
@@ -74,29 +95,6 @@ int main() {
 			cout << endl;
 		}
 	}
-
-	for (int i = 0; i < DEPTH; i++) {
-		// 0 is the index for the reading race row
-		readingRace(set, list, vector, resultsArray[i][0]);
-	}
-
-	// RACE 1: READING
-
-
-	// RACE 2: SORTING
-	sortingRace(list, vector);
-
-	// RACE 3: INSERTING
-	insertingRace(set, list, vector);
-
-	// RACE 4: DELETING
-	deletingRace(set, list, vector);
-
-	// RESETTING FOR NEXT SET OF RACES
-	resetRacers(set, list, vector);
-
-	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
-
 	return 0;
 }
 
@@ -148,7 +146,7 @@ void readingRace(set<string> &set, list<string> &list, vector<string> &vector, l
 			count() << endl;
 }
 
-void sortingRace(list<string> &list, vector<string> &vector) {
+void sortingRace(list<string> &list, vector<string> &vector, long long results[COLS]) {
 	// Sorting list
 	auto start = high_resolution_clock::now();
 	list.sort();
@@ -161,11 +159,16 @@ void sortingRace(list<string> &list, vector<string> &vector) {
 	end = high_resolution_clock::now();
 	auto vectorDuration = duration_cast<microseconds>(end - start);
 
+	// VECTOR / LIST / SET are the columns
+	results[0] = vectorDuration.count();
+	results[1] = listDuration.count();
+	results[2] = -1;
+
 	// Outputting results
 	cout << setw(WIDTH) << "Sort \t" << vectorDuration.count() << '\t' << listDuration.count() << "\t -1" << endl;
 }
 
-void insertingRace(set<string> &set, list<string> &list, vector<string> &vector) {
+void insertingRace(set<string> &set, list<string> &list, vector<string> &vector, long long results[COLS]) {
 	// Inserting in set
 	auto start = high_resolution_clock::now();
 	set.insert("TESTCODE");
@@ -188,12 +191,17 @@ void insertingRace(set<string> &set, list<string> &list, vector<string> &vector)
 	end = high_resolution_clock::now();
 	auto vectorDuration = duration_cast<microseconds>(end - start);
 
+	// VECTOR / LIST / SET are the columns
+	results[0] = vectorDuration.count();
+	results[1] = listDuration.count();
+	results[2] = setDuration.count();
+
 	// Outputting results
 	cout << setw(WIDTH) << "Insert \t" << vectorDuration.count() << '\t' << listDuration.count() << '\t' << setDuration.
 			count() << endl;
 }
 
-void deletingRace(set<string> &set, list<string> &list, vector<string> &vector) {
+void deletingRace(set<string> &set, list<string> &list, vector<string> &vector, long long results[COLS]) {
 	// Deleting middle element in set
 	auto start = high_resolution_clock::now();
 	int middle = (set.size() / 2) - 1;
@@ -218,6 +226,11 @@ void deletingRace(set<string> &set, list<string> &list, vector<string> &vector) 
 	vector.erase(vector.begin() + middle);
 	end = high_resolution_clock::now();
 	auto vectorDuration = duration_cast<microseconds>(end - start);
+
+	// VECTOR / LIST / SET are the columns
+	results[0] = vectorDuration.count();
+	results[1] = listDuration.count();
+	results[2] = setDuration.count();
 
 	// Outputting results
 	cout << setw(WIDTH) << "Delete \t" << vectorDuration.count() << '\t' << listDuration.count() << '\t' << setDuration.

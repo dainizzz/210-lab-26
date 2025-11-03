@@ -83,7 +83,7 @@ int main() {
 		resetRacers(set, list, vector);
 	}
 
-	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
+	// Getting the sums for each type of race and data structure
 	long long sumRV = 0;
 	long long sumRL = 0;
 	long long sumRS = 0;
@@ -100,7 +100,22 @@ int main() {
 		sumRV += resultsArray[i][0][0];
 		sumRL += resultsArray[i][0][1];
 		sumRS += resultsArray[i][0][2];
+		sumSV += resultsArray[i][1][0];
+		sumSL += resultsArray[i][1][1];
+		sumSS += resultsArray[i][1][2];
+		sumIV += resultsArray[i][2][0];
+		sumIL += resultsArray[i][2][1];
+		sumIS += resultsArray[i][2][2];
+		sumDV += resultsArray[i][3][0];
+		sumDL += resultsArray[i][3][1];
+		sumDS += resultsArray[i][3][2];
 	}
+
+	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
+	cout << sumRV / 15 << '\t' << sumRL / 15 << '\t' << sumRS / 15 << endl;
+	cout << sumSV / 15 << '\t' << sumSL / 15 << '\t' << sumSS / 15 << endl;
+	cout << sumIV / 15 << '\t' << sumIL / 15 << '\t' << sumIS / 15 << endl;
+	cout << sumDV / 15 << '\t' << sumDL / 15 << '\t' << sumDS / 15 << endl;
 
 	return 0;
 }

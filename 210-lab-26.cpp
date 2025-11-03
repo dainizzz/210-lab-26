@@ -17,26 +17,26 @@ const int DEPTH = 15;
 const int ROWS = 4;
 const int COLS = 3;
 
-// readingRace() reads data from a file to a set, std::list, and vector and saves the results to an array
+// readingRace() reads data from a file to a set, std::list, and vector and saves how long it took to perform the operations to an array
 // arguments: an empty set of type string, an empty std::list of type string, an empty vector of type string, an array
 //		of size COLS and type long long
 // returns: nothing
 void readingRace(set<string> &, list<string> &, vector<string> &, long long [COLS]);
 
-// sortingRace() sorts data in a std::list and vector and outputs how long it took to perform the sort. Because sets are
+// sortingRace() sorts data in a std::list and vector and saves how long it took to perform the sort in an array. Because sets are
 //      already sorted, -1 is output as the duration value for sorting the set.
 // arguments: a std::list of strings and a vector of strings, an array of size COLS and type long long
 // returns: nothing
 void sortingRace(list<string> &, vector<string> &, long long [COLS]);
 
-// insertingRace() inserts the value "TESTCODE" into the middle of a std::list and vector and into a set, and outputs
-//      how long it took to perform the operations.
+// insertingRace() inserts the value "TESTCODE" into the middle of a std::list and vector and into a set, and saves
+//      how long it took to perform the operations in an array.
 // arguments: a set of strings, a std::list of strings, a vector of strings, an array of size COLS and type long long
 // returns: nothing
 void insertingRace(set<string> &, list<string> &, vector<string> &, long long [COLS]);
 
-// deletingRace() deletes the value in the middle of a set, std::list, and vector and outputs how long it took to
-//      perform the operations.
+// deletingRace() deletes the value in the middle of a set, std::list, and vector and saves how long it took to
+//      perform the operations in an array.
 // arguments: a set of strings, a std::list of strings, a vector of strings, an array of size COLS and type long long
 // returns: nothing
 void deletingRace(set<string> &, list<string> &, vector<string> &, long long [COLS]);
@@ -66,8 +66,6 @@ int main() {
 		}
 	}
 
-
-
 	for (int i = 0; i < DEPTH; i++) {
 		// RACE 1: READING
 		readingRace(set, list, vector, resultsArray[i][0]); // 0 is the index for the reading race row
@@ -80,21 +78,30 @@ int main() {
 
 		// RACE 4: DELETING
 		deletingRace(set, list, vector, resultsArray[i][3]); // 3 is the index for the deleting race row
-	}
 
-	// RESETTING FOR NEXT SET OF RACES
-	resetRacers(set, list, vector);
+		// RESETTING FOR NEXT ROUND OF RACES
+		resetRacers(set, list, vector);
+	}
 
 	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
+	long long sumRV = 0;
+	long long sumRL = 0;
+	long long sumRS = 0;
+	long long sumSV = 0;
+	long long sumSL = 0;
+	long long sumSS = 0;
+	long long sumIV = 0;
+	long long sumIL = 0;
+	long long sumIS = 0;
+	long long sumDV = 0;
+	long long sumDL = 0;
+	long long sumDS = 0;
 	for (int i = 0; i < DEPTH; i++) {
-		cout << "ROUND " << i + 1 << endl;
-		for (int row = 0; row < ROWS; row++) {
-			for (int col = 0; col < COLS; col++) {
-				cout << resultsArray[i][row][col] << '\t';
-			}
-			cout << endl;
-		}
+		sumRV += resultsArray[i][0][0];
+		sumRL += resultsArray[i][0][1];
+		sumRS += resultsArray[i][0][2];
 	}
+
 	return 0;
 }
 

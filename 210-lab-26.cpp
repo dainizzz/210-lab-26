@@ -55,16 +55,7 @@ int main() {
 	// rows: types of races
 	// columns: types of data structures
 	// depth: each iteration of the test being conducted
-	long long resultsArray[DEPTH][ROWS][COLS];
-
-	// Add placeholder values to array
-	for (int i = 0; i < DEPTH; i++) {
-		for (int row = 0; row < ROWS; row++) {
-			for (int col = 0; col < COLS; col++) {
-				resultsArray[i][row][col] = 0;
-			}
-		}
-	}
+	long long resultsArray[DEPTH][ROWS][COLS] {};
 
 	for (int i = 0; i < DEPTH; i++) {
 		// RACE 1: READING
@@ -111,11 +102,12 @@ int main() {
 		sumDS += resultsArray[i][3][2];
 	}
 
-	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
-	cout << sumRV / 15 << '\t' << sumRL / 15 << '\t' << sumRS / 15 << endl;
-	cout << sumSV / 15 << '\t' << sumSL / 15 << '\t' << sumSS / 15 << endl;
-	cout << sumIV / 15 << '\t' << sumIL / 15 << '\t' << sumIS / 15 << endl;
-	cout << sumDV / 15 << '\t' << sumDL / 15 << '\t' << sumDS / 15 << endl;
+	cout << "Number of simulations: 15" << endl;
+	cout << setw(WIDTH) << "  Operation\tVector\tList\tSet" << endl;
+	cout << setw(WIDTH) << "Read \t" << sumRV / 15 << '\t' << sumRL / 15 << '\t' << sumRS / 15 << endl;
+	cout << setw(WIDTH) << "Sort \t" << sumSV / 15 << '\t' << sumSL / 15 << '\t' << sumSS / 15 << endl;
+	cout << setw(WIDTH) << "Insert \t" << sumIV / 15 << '\t' << sumIL / 15 << '\t' << sumIS / 15 << endl;
+	cout << setw(WIDTH) << "Delete \t" << sumDV / 15 << '\t' << sumDL / 15 << '\t' << sumDS / 15 << endl;
 
 	return 0;
 }
@@ -162,10 +154,6 @@ void readingRace(set<string> &set, list<string> &list, vector<string> &vector, l
 	results[0] = vectorDuration.count();
 	results[1] = listDuration.count();
 	results[2] = setDuration.count();
-
-	// Outputting results
-	cout << setw(WIDTH) << "Read \t" << vectorDuration.count() << '\t' << listDuration.count() << '\t' << setDuration.
-			count() << endl;
 }
 
 void sortingRace(list<string> &list, vector<string> &vector, long long results[COLS]) {
@@ -185,9 +173,6 @@ void sortingRace(list<string> &list, vector<string> &vector, long long results[C
 	results[0] = vectorDuration.count();
 	results[1] = listDuration.count();
 	results[2] = -1;
-
-	// Outputting results
-	cout << setw(WIDTH) << "Sort \t" << vectorDuration.count() << '\t' << listDuration.count() << "\t -1" << endl;
 }
 
 void insertingRace(set<string> &set, list<string> &list, vector<string> &vector, long long results[COLS]) {
@@ -217,10 +202,6 @@ void insertingRace(set<string> &set, list<string> &list, vector<string> &vector,
 	results[0] = vectorDuration.count();
 	results[1] = listDuration.count();
 	results[2] = setDuration.count();
-
-	// Outputting results
-	cout << setw(WIDTH) << "Insert \t" << vectorDuration.count() << '\t' << listDuration.count() << '\t' << setDuration.
-			count() << endl;
 }
 
 void deletingRace(set<string> &set, list<string> &list, vector<string> &vector, long long results[COLS]) {
@@ -253,10 +234,6 @@ void deletingRace(set<string> &set, list<string> &list, vector<string> &vector, 
 	results[0] = vectorDuration.count();
 	results[1] = listDuration.count();
 	results[2] = setDuration.count();
-
-	// Outputting results
-	cout << setw(WIDTH) << "Delete \t" << vectorDuration.count() << '\t' << listDuration.count() << '\t' << setDuration.
-			count() << endl;
 }
 
 void resetRacers(set<string> &set, list<string> &list, vector<string> &vector) {

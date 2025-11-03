@@ -13,6 +13,9 @@ using namespace std;
 using namespace std::chrono;
 
 const int WIDTH = 15;
+const int DEPTH = 15;
+const int ROWS = 4;
+const int COLS = 3;
 
 // readingRace() reads data from a file to a set, std::list, and vector and outputs how long it took to read data to each.
 // arguments: an empty set of type string, an empty std::list of type string, an empty vector of type string
@@ -37,10 +40,30 @@ void insertingRace(set<string> &, list<string> &, vector<string> &);
 // returns: nothing
 void deletingRace(set<string> &, list<string> &, vector<string> &);
 
+// resetRacers() empties the data structures to prepare them for the next iteration of races
+// arguments: a set of strings, a std::list of strings, a vector of strings
+// returns: nothing
+void resetRacers(set<string> &, list<string> &, vector<string> &);
+
 int main() {
 	set<string> set;
 	list<string> list;
 	vector<string> vector;
+
+	// 3D array: depth, rows, columns
+	// rows: types of races
+	// columns: types of data structures
+	// depth: each iteration of the test being conducted
+	long resultsArray[DEPTH][ROWS][COLS];
+
+	// Add placeholder values to array
+	for (int i = 0; i < DEPTH; i++) {
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				resultsArray[i][row][col] = 0;
+			}
+		}
+	}
 
 	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
 
@@ -58,13 +81,6 @@ int main() {
 
 	return 0;
 }
-
-/* syntax examples:
-auto start = high_resolution_clock::now()
-auto end = high_resolution_clock::now()
-auto duration = duration_cast<milliseconds>(end - start)
-duration.count() references elapsed milliseconds
-*/
 
 void readingRace(set<string> &set, list<string> &list, vector<string> &vector) {
 	ifstream infile("codes.txt");

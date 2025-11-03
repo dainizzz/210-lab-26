@@ -20,7 +20,7 @@ const int COLS = 3;
 // readingRace() reads data from a file to a set, std::list, and vector and outputs how long it took to read data to each.
 // arguments: an empty set of type string, an empty std::list of type string, an empty vector of type string
 // returns: nothing
-void readingRace(set<string> &, list<string> &, vector<string> &);
+void readingRace(set<string> &, list<string> &, vector<string> &, long [ROWS][COLS]);
 
 // sortingRace() sorts data in a std::list and vector and outputs how long it took to perform the sort. Because sets are
 //      already sorted, -1 is output as the duration value for sorting the set.
@@ -65,8 +65,6 @@ int main() {
 		}
 	}
 
-	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
-
 	// RACE 1: READING
 	readingRace(set, list, vector);
 
@@ -79,10 +77,15 @@ int main() {
 	// RACE 4: DELETING
 	deletingRace(set, list, vector);
 
+	// RESETTING FOR NEXT SET OF RACES
+	resetRacers(set, list, vector);
+
+	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
+
 	return 0;
 }
 
-void readingRace(set<string> &set, list<string> &list, vector<string> &vector) {
+void readingRace(set<string> &set, list<string> &list, vector<string> &vector, long round[ROWS][COLS]) {
 	ifstream infile("codes.txt");
 	string temp;
 
@@ -199,4 +202,10 @@ void deletingRace(set<string> &set, list<string> &list, vector<string> &vector) 
 	// Outputting results
 	cout << setw(WIDTH) << "Delete \t" << vectorDuration.count() << '\t' << listDuration.count() << '\t' << setDuration.
 			count() << endl;
+}
+
+void resetRacers(set<string> &set, list<string> &list, vector<string> &vector) {
+	set.clear();
+	list.clear();
+	vector.clear();
 }

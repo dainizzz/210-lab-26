@@ -12,7 +12,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const int WIDTH = 15;
+const int WIDTH = 10;
 const int DEPTH = 15;
 const int ROWS = 4;
 const int COLS = 3;
@@ -103,7 +103,7 @@ int main() {
 	}
 
 	cout << "Number of simulations: 15" << endl;
-	cout << setw(WIDTH) << "  Operation\tVector\tList\tSet" << endl;
+	cout << setw(WIDTH) << "Operation\tVector\tList\tSet" << endl;
 	cout << setw(WIDTH) << "Read \t" << sumRV / 15 << '\t' << sumRL / 15 << '\t' << sumRS / 15 << endl;
 	cout << setw(WIDTH) << "Sort \t" << sumSV / 15 << '\t' << sumSL / 15 << '\t' << sumSS / 15 << endl;
 	cout << setw(WIDTH) << "Insert \t" << sumIV / 15 << '\t' << sumIL / 15 << '\t' << sumIS / 15 << endl;

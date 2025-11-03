@@ -58,6 +58,7 @@ int main() {
 	// columns: each of data structures (set, etc.)
 	long long resultsArray[DEPTH][ROWS][COLS] {};
 
+	// Conducting 15 rounds of races and saving the results to resultsArray
 	for (int i = 0; i < DEPTH; i++) {
 		// RACE 1: READING
 		readingRace(set, list, vector, resultsArray[i][0]); // 0 is the index for the reading race row
@@ -76,7 +77,7 @@ int main() {
 	}
 
 	// Initializing variables for holding the sums for each type of race and data structure.
-	// The 1st letter refers to the type of race (e.g. R for reading) & the 2nd the data structure (V for vector)
+	// The 1st letter refers to the type of race (e.g. R for reading) & the 2nd to the data structure (e.g. V for vector)
 	long long sumRV = 0;
 	long long sumRL = 0;
 	long long sumRS = 0;
@@ -90,11 +91,12 @@ int main() {
 	long long sumDL = 0;
 	long long sumDS = 0;
 
-	// The for loop is going through each "slice" of the 3D array, i.e. each of the 15 rounds of tests, and adding the
+	// The for loop is going through each "slice" of the 3D array, i.e. each of the 15 rounds of races, and adding the
 	// relevant data to the sum variables.
-	// i is the current round, the indexes 0-3 in the next bracket represent the types of races, and the indexes 0-2 in
-	// the last bracket represent the data structures
 	for (int i = 0; i < DEPTH; i++) {
+		// The first [] (i) represents the current round of races
+		// The second [] represents the type of race: 0 for reading, 1 for sorting, 2 for inserting, 3 for deleting
+		// The third [] represents the type of data structure: 0 for vector, 1 for list, 2 for set
 		sumRV += resultsArray[i][0][0];
 		sumRL += resultsArray[i][0][1];
 		sumRS += resultsArray[i][0][2];
